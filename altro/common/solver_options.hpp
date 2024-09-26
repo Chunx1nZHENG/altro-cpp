@@ -48,11 +48,11 @@ struct SolverOptions {
   bool reset_duals = true;                // NOLINT Reset the dual variables before each solve
   int header_frequency = 10;              // NOLINT Frequency at which the header is printed for AL iterations (for levels < kInner)
   LogLevel verbose = LogLevel::kSilent;   // Output verbosity level
-  bool profiler_enable = false;                  // Enable internal profiler
-  bool profiler_output_to_file = false;    // Output to file (true) or stdout (false)
+  bool profiler_enable = true;                  // Enable internal profiler
+  bool profiler_output_to_file = true;    // Output to file (true) or stdout (false)
   std::string log_directory;
   std::string profile_filename = "profiler.out";
-  int nthreads = 1;                        // Number of processors to use. Set to kPickHardwareThreads to choose automatically.
+  int nthreads = kPickHardwareThreads;                        // Number of processors to use. Set to kPickHardwareThreads to choose automatically.
   int tasks_per_thread = 1;
   // clang-format on
 

@@ -268,7 +268,17 @@ class ALCost : public problem::CostFunction {
       J += eq_[i]->AugLag(x, u);
     }
     for (size_t i = 0; i < ineq_.size(); ++i) {
-      J += ineq_[i]->AugLag(x, u);
+
+
+      if (ineq_[i]->GetLabel() == "SDP_BF") {
+        Eigen::VectorXd temp_out(ineq_[i]->OutputDimension());
+        ineq_[i]->Evaluate(x, u,temp_out);
+        J += temp_out(0);
+      }
+      else
+      {
+        J += ineq_[i]->AugLag(x, u);
+      }
     }
     return J;
   }
@@ -283,9 +293,26 @@ class ALCost : public problem::CostFunction {
       du += du_tmp_;
     }
     for (size_t i = 0; i < ineq_.size(); ++i) {
-      ineq_[i]->AugLagGradient(x, u, dx_tmp_, du_tmp_);
-      dx += dx_tmp_;
-      du += du_tmp_;
+
+      if (ineq_[i]->GetLabel() == "SDP_BF") {
+        Eigen::VectorXd temp_out(m+n);
+        ineq_[i]->Jacobian(x, u, temp_out);
+        dx += temp_out.head(n);
+        du += temp_out.tail(m);
+      }
+      else
+      {
+        ineq_[i]->AugLagGradient(x, u, dx_tmp_, du_tmp_);
+// if (ineq_[i]->GetLabel() == "SDP Constraint")
+// {
+std::cout << ineq_[i]->GetLabel() << i <<std::endl;
+  std::cout << "dx_tmp_ = " << dx_tmp_ << std::endl;
+  std::cout << "du_tmp_ = " << du_tmp_ << std::endl;
+// }
+        dx += dx_tmp_;
+        du += du_tmp_;
+      }
+
     }
   }
 
@@ -433,6 +460,7 @@ class ALCost : public problem::CostFunction {
   // must be mutable since the CostFunction interface requires a const method
   VectorNd<n> dx_tmp_;
   VectorNd<m> du_tmp_;
+  // VectorNd<m+n> jac_tmp_;
   MatrixNxMd<n, n> dxdx_tmp_;
   MatrixNxMd<n, m> dxdu_tmp_;
   MatrixNxMd<m, m> dudu_tmp_;

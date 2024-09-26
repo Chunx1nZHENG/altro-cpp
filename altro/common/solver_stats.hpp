@@ -28,6 +28,8 @@ enum class SolverStatus {
   kMaxInnerIterations = 7,
   kMaxPenalty = 8,
   kBackwardPassRegularizationFailed = 9,
+  kSafetyConstraints = 10,
+  // kMaxIterations = 11,
 };
 
 /**

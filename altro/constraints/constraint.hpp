@@ -189,7 +189,9 @@ class Constraint : public FunctionBase {
   bool HasHessian() const override { return false; }
 
   virtual std::string GetLabel() const { return GetConstraintType(); }
-
+  virtual bool CheckSafetyConstraints() const { 
+    std::cout << "virtual safety_: "  << std::endl;
+    return false; }
   std::string GetConstraintType() const {
     if (std::is_same<ConType, Equality>::value) {
       return "Equality Constraint";

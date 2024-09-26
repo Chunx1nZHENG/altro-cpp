@@ -1,19 +1,19 @@
 Description                  Time (us)   %Total  %Parent
 --------------------------------------------------------
-al                               4586      100      100
+al                              44123      100      100
   convergence_check                 0        0        0
-  dual_update                       9        0        0
-  ilqr                           4450       97       97
-      backward_pass               289        6        6
+  dual_update                      69        0        0
+  ilqr                          43802       99       99
+      backward_pass             12946       29       29
       convergence_check             0        0        0
-      cost                         75        1        1
-      expansions                 1606       35       36
-      forward_pass               2337       50       52
-                  cost           1419       30       60
-                  rollout         642       13       27
-      init                          0        0        0
-      stats                        17        0        0
-  init                             81        1        1
-      cost                         13        0       16
-  penalty_update                    0        0        0
-  stats                             6        0        0
+      cost                        314        0        0
+      expansions                14491       32       33
+      forward_pass              15231       34       34
+                  cost           6026       13       39
+                  rollout        8901       20       58
+      init                          8        0        0
+      stats                       336        0        0
+  init                             99        0        0
+      cost                         47        0       47
+  penalty_update                    8        0        0
+  stats                            96        0        0

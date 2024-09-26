@@ -213,7 +213,36 @@ class AugmentedLagrangianiLQR {
   double GetMaxPenalty() const;
 
   void ResetDualVariables();
-
+  bool CheckSafetyConstraints()
+  {
+    int count = 0;
+    int numS = 0;
+    int numk = NumSegments();
+      for (int i = 0; i < numk+1; ++i)
+      {
+        int ineq_cnt = GetALCost(i)->GetInequalityConstraints().size();
+        //find the label of the constraint, if it is "SDP Constraint", then update the A, b, F, g, c
+        for (int j = 0; j < ineq_cnt; ++j)
+        {
+          auto sdp_ineqconstraint = GetALCost(i)->GetInequalityConstraints()[j]->GetConstraint();
+  // std::cout << sdp_ineqconstraint->GetLabel() << std::endl;
+          if (sdp_ineqconstraint->GetLabel()== "SDP Constraint")
+          {
+            numS++;
+            // std::cout<<"Get freeregionCenters and LinearConstraints"<<std::endl;
+            auto sdp_constraint = GetALCost(i)->GetInequalityConstraints()[j]->GetConstraint();
+            if (sdp_constraint->CheckSafetyConstraints())
+            {
+              count++;
+            }
+          }
+        }
+      }
+      std::cout << "Safety Constraints: " << count << std::endl;
+      std::cout << "Total Safety Constraints: " << numS << std::endl;
+      if (count == numS) return true;
+      else return false;
+  }
  private:
   Stopwatch CreateTimer(const std::string& name) { return GetStats().GetTimer()->Start(name); }
 
@@ -375,6 +404,7 @@ bool AugmentedLagrangianiLQR<n, m>::IsDone() {
   const bool is_max_penalty_exceeded = stats.max_penalty.back() > opts.maximum_penalty;
   const bool is_max_outer_iterations_exceeded = stats.iterations_outer >= opts.max_iterations_outer;
   const bool is_max_total_iterations_exeeded = stats.iterations_total >= opts.max_iterations_total;
+  // const bool is_safety_satified = CheckSafetyConstraints();
   if (ilqr_solver_.GetStatus() != SolverStatus::kSolved) {
     status_ = ilqr_solver_.GetStatus();
     return true;
@@ -397,6 +427,12 @@ bool AugmentedLagrangianiLQR<n, m>::IsDone() {
     status_ = SolverStatus::kMaxIterations;
     return true;
   }
+  //   if (is_safety_satified)
+  // {
+  //   std::cout << "Safety Constraints are satisfied" << std::endl;
+  //   status_ = SolverStatus::kSafetyConstraints;
+  //   return true;
+  // }
   return false;
 }
 

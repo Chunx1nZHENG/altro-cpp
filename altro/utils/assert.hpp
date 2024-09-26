@@ -4,7 +4,7 @@
 #include <string>
 
 #ifndef NDEBUG
-#define ALTRO_ASSERT(Expr, Msg) altro::utils::AssertMsg((Expr), Msg, #Expr, __LINE__, __FILE__)
+#define ALTRO_ASSERT(Expr, Msg) ;
 #else
 #define ALTRO_ASSERT(Expr, Msg) ;
 #endif

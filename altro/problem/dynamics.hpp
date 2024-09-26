@@ -180,7 +180,8 @@ class DiscreteDynamics : public FunctionBase {
   void SetTime(float t) { t_ = t; }
   float GetStep() const { return h_; }
   void SetStep(float h) { h_ = h; }
-
+  void SetInitTransform(const Eigen::Matrix4d& T) { T_init = T;}
+  Eigen::Matrix4d T_init = Eigen::Matrix4d::Identity();
  protected:
   float t_ = 0.0F;
   float h_ = 0.0F;
