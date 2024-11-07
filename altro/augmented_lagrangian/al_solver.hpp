@@ -226,7 +226,7 @@ class AugmentedLagrangianiLQR {
         {
           auto sdp_ineqconstraint = GetALCost(i)->GetInequalityConstraints()[j]->GetConstraint();
   // std::cout << sdp_ineqconstraint->GetLabel() << std::endl;
-          if (sdp_ineqconstraint->GetLabel()== "SDP Constraint")
+          if (sdp_ineqconstraint->GetLabel()== "SDP Constraint" || sdp_ineqconstraint->GetLabel()== "SDP_BF")
           {
             numS++;
             // std::cout<<"Get freeregionCenters and LinearConstraints"<<std::endl;

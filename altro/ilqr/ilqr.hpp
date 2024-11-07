@@ -532,7 +532,8 @@ class iLQR {
           z = -1.0;
         }
 
-        if (opts.line_search_lower_bound <= z && z <= opts.line_search_upper_bound && J < J0) {
+        // if (opts.line_search_lower_bound <= z && z <= opts.line_search_upper_bound && J < J0) {
+        if (J < J0) {
           success = true;
           // stats_.improvement_ratio.emplace_back(z);
           stats_.Log("cost", J);
@@ -602,7 +603,7 @@ class iLQR {
     bool gradient = stats_.gradient.back() < opts.gradient_tolerance;
     bool is_done = false;
 
-    if (cost_decrease && gradient) {
+    if (cost_decrease || gradient) {
       status_ = SolverStatus::kSolved;
       is_done = true;
     } else if (stats_.iterations_inner >= opts.max_iterations_inner) {

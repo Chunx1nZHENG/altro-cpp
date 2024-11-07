@@ -305,9 +305,7 @@ class ALCost : public problem::CostFunction {
         ineq_[i]->AugLagGradient(x, u, dx_tmp_, du_tmp_);
 // if (ineq_[i]->GetLabel() == "SDP Constraint")
 // {
-std::cout << ineq_[i]->GetLabel() << i <<std::endl;
-  std::cout << "dx_tmp_ = " << dx_tmp_ << std::endl;
-  std::cout << "du_tmp_ = " << du_tmp_ << std::endl;
+
 // }
         dx += dx_tmp_;
         du += du_tmp_;

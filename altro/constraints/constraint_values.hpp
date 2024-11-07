@@ -69,7 +69,8 @@ class ConstraintValues : public Constraint<ConType> {
   ConstraintInfo GetConstraintInfo() {
     return ConstraintInfo{con_->GetLabel(), 0, GetViolation(), con_->GetConstraintType()};
   }
-
+  std::string GetConLabel() {return con_->GetLabel();}
+  ConstraintPtr<ConType> GetConPtr() {return con_;}
   /***************************** Setters **************************************/
   /**
    * @brief Set the same penalty for all constraints

@@ -58,7 +58,7 @@ class CostFunction : public altro::ScalarFunction {
                         Eigen::Ref<VectorXd> du) = 0;
   virtual void Hessian(const VectorXdRef& x, const VectorXdRef& u, Eigen::Ref<MatrixXd> dxdx,
                        Eigen::Ref<MatrixXd> dxdu, Eigen::Ref<MatrixXd> dudu) = 0;
-
+  virtual std::string GetLabel() const { return "CostFunction"; }
   void Gradient(const VectorXdRef& x, const VectorXdRef& u, Eigen::Ref<VectorXd> grad) override {
     Gradient(x, u, grad.head(StateDimension()), grad.tail(ControlDimension()));
   }
